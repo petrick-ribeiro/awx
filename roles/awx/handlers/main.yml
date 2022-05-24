@@ -1,0 +1,23 @@
+---
+
+# - name: Install nightly and test repo
+#   become: true
+#   shell:
+#     cmd: yum-config-manager --enable docker-ce-nightly && \
+#         yum-config-manager --enable docker-ce-test
+
+- name: Run Node setup Script
+  become: true
+  shell:
+    cmd: bash /tmp/setup_lts.x
+
+- name: Start Docker
+  become: true
+  shell:
+    cmd: systemctl start docker
+
+- name: Enable Docker
+  become: true
+  shell:
+    cmd: systemctl enable docker
+

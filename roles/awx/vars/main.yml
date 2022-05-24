@@ -1,0 +1,17 @@
+---
+
+req_pkgs:
+      - yum-utils
+      - git
+
+docker_repo: "https://download.docker.com/linux/centos/docker-ce.repo"
+
+docker_pkgs:
+      - docker-ce
+      - docker-ce-cli
+      - docker-compose
+      - containerd.io
+      - docker-compose-plugin
+
+awx_repo: "https://github.com/ansible/awx.git"
+awx_branch: "17.0.1"

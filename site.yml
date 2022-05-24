@@ -1,0 +1,9 @@
+---
+
+- name: Provisioning
+  hosts: ubuntu
+  remote_user: vagrant
+
+  roles:
+    - common
+    - awx

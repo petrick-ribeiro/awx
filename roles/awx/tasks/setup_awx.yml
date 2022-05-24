@@ -1,0 +1,17 @@
+---
+
+- name: Install Ansible
+  become: true
+  yum:
+    name: ansible
+    state: latest
+
+- name: Cloning AWX Repo
+  become: true
+  git:
+    clone: yes
+    repo: "{{ awx_repo }}"
+    version: "{{ awx_branch }}"
+    dest: /tmp/awx/
+  tags: "awx"
+
