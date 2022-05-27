@@ -2,7 +2,7 @@
 
 - name: Provisioning
   hosts: ubuntu
-  remote_user: vagrant
+  remote_user: petrick
 
   roles:
     - common

@@ -1,47 +1,61 @@
 ---
 
+# Make Installation
 - name: Ensure GNU Make are installed
   become: true
   yum:
+    update_cache: yes
     state: present
     name: "@Development tools"
-    update_cache: yes
 
 # Node Installation
-- name: Add Node Repository
-  become: true
-  get_url: 
-    url: https://rpm.nodesource.com/setup_lts.x
-    dest: /tmp/setup_lts.x
-  notify:
-    - Run Node setup Script
-  tags: "node"
+- name: Install and Configure Node / NPM
+  block:
 
-- name: Install NodeJs and NPM
+    - name: Install NodeJs and NPM
+      yum:
+        update_cache: yes
+        state: latest
+        name: nodejs
+      tags: "node"
   become: true
-  yum:
-    state: latest
-    name: nodejs
-  tags: "node"
 
 # Docker Installation
-- name: Install Docker Pre-Req
-  become: true
-  yum:
-    state: latest
-    name: "{{ req_pkgs }}"
+- name: Install and Configure Docker
+  block:
+    - name: Install Docker Pre-Req
+      yum:
+        update_cache: yes
+        state: latest
+        name: "{{ docker_req }}"
+      tags: "docker"
 
-- name: Add Docker Repository
-  become: true
-  get_url: 
-    url: "{{ docker_repo }}"
-    dest: /etc/yum.repos.d/
-  tags: "docker"
+    - name: Install Docker Engine
+      yum:
+        update_cache: yes
+        state: latest
+        name: "{{ docker_pkgs }}"
+      notify:
+        - Enable Docker
+      tags: "docker"
 
-- name: Install Docker Engine
+    - name: Start Docker
+      service:
+        name: docker
+        state: started
+      tags: "docker"
+
+    - name: Check if docker.sock exists
+      stat:
+        path: /var/run/docker.sock
+      register: result
+      tags: "docker"
+
+    - name: Change docker.sock ownership
+      file:
+        path: /var/run/docker.sock
+        owner: "{{ host_user }}"
+      when: result.stat.exists
+      tags: "docker"
   become: true
-  yum:
-    state: latest
-    name: "{{ docker_pkgs }}"
-  tags: "docker"
 

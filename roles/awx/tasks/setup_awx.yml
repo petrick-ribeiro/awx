@@ -10,8 +10,20 @@
   become: true
   git:
     clone: yes
+    force: yes
     repo: "{{ awx_repo }}"
     version: "{{ awx_branch }}"
     dest: /tmp/awx/
   tags: "awx"
 
+- name: Change user parameters in AWX inventory
+  become: true
+  replace:
+    path: /tmp/awx/installer/inventory
+    backup: yes
+    regexp: "{{ item.regex }}"
+    replace: "{{ item.value }}"
+  loop:
+    - { regex: 'admin_user=admin', value: 'admin_user="{{ host_user }}"' }
+    - { regex: '# admin_password=password', value: 'admin_password="{{ host_pass }}"'}
+  tags: "awx"

@@ -1,8 +1,10 @@
 ---
 
-req_pkgs:
+docker_req:
       - yum-utils
       - git
+      - python3
+      - libselinux-python3
 
 docker_repo: "https://download.docker.com/linux/centos/docker-ce.repo"
 
@@ -15,3 +17,6 @@ docker_pkgs:
 
 awx_repo: "https://github.com/ansible/awx.git"
 awx_branch: "17.0.1"
+
+host_user: petrick
+host_pass: "test"

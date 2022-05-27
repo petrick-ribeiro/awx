@@ -4,3 +4,4 @@ common_pkgs:
       - wget
       - curl
       - vim
+      - htop

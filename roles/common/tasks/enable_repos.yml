@@ -1,0 +1,9 @@
+---
+
+- name: Add EPEL Repo
+  become: true
+  yum:
+    state: latest
+    name: epel-release
+    update_cache: yes
+

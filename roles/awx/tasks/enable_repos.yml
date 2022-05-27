@@ -1,0 +1,18 @@
+---
+
+# Node and NPM
+- name: Add Node Repository
+  get_url: 
+    url: https://rpm.nodesource.com/setup_lts.x
+    dest: /tmp/setup_lts.x
+  notify:
+    - Run Node setup Script
+  tags: "node"
+
+# Docker
+- name: Add Docker Repository
+  become: true
+  get_url: 
+    url: "{{ docker_repo }}"
+    dest: /etc/yum.repos.d/
+  tags: "docker"

@@ -1,0 +1,15 @@
+---
+
+- name: Update Repo
+  become: true
+  yum:
+    state: latest
+    name: "*"
+    exclude: kernel*
+  tags: "update"
+
+- name: Install Common Apps
+  become: true
+  yum:
+    state: latest
+    name: "{{ common_pkgs }}"
