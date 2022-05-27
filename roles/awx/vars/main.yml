@@ -2,7 +2,6 @@
 
 docker_req:
       - yum-utils
-      - git
       - python3
       - libselinux-python3
 

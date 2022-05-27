@@ -10,9 +10,20 @@
   tags: "node"
 
 # Docker
-- name: Add Docker Repository
+- name: Add Docker Repo
   become: true
   get_url: 
     url: "{{ docker_repo }}"
     dest: /etc/yum.repos.d/
   tags: "docker"
+
+# AWX
+- name: Cloning AWX Repo
+  become: true
+  git:
+    clone: yes
+    force: yes
+    repo: "{{ awx_repo }}"
+    version: "{{ awx_branch }}"
+    dest: /tmp/awx/
+  tags: "awx"

@@ -35,27 +35,26 @@
         update_cache: yes
         state: latest
         name: "{{ docker_pkgs }}"
-      notify:
-        - Enable Docker
       tags: "docker"
 
     - name: Start Docker
       service:
         name: docker
-        state: started
+        state: restarted
+        enabled: yes
       tags: "docker"
 
     - name: Check if docker.sock exists
       stat:
         path: /var/run/docker.sock
-      register: result
+      register: docker_daemon
       tags: "docker"
 
     - name: Change docker.sock ownership
       file:
         path: /var/run/docker.sock
         owner: "{{ host_user }}"
-      when: result.stat.exists
+      when: docker_daemon.stat.exists
       tags: "docker"
   become: true
 

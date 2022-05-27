@@ -6,24 +6,29 @@
     name: ansible
     state: latest
 
-- name: Cloning AWX Repo
-  become: true
-  git:
-    clone: yes
-    force: yes
-    repo: "{{ awx_repo }}"
-    version: "{{ awx_branch }}"
-    dest: /tmp/awx/
+- name: Check if AWX Repo exists
+  stat:
+    path: /tmp/awx/
+  register: awx_repo
   tags: "awx"
 
-- name: Change user parameters in AWX inventory
+- name: Install and Configure AWX
+  block:
+    - name: Change user parameters in AWX inventory
+      replace:
+        path: /tmp/awx/installer/inventory
+        backup: yes
+        regexp: "{{ item.regex }}"
+        replace: "{{ item.value }}"
+      loop:
+        - { regex: 'admin_user=admin', value: 'admin_user="{{ host_user }}"' }
+        - { regex: '# admin_password=password', value: 'admin_password="{{ host_pass }}"'}
+
+    - name: Install AWX
+      command: ansible -i inventory install.yml
+      args:
+        chdir: /tmp/awx/installer/
   become: true
-  replace:
-    path: /tmp/awx/installer/inventory
-    backup: yes
-    regexp: "{{ item.regex }}"
-    replace: "{{ item.value }}"
-  loop:
-    - { regex: 'admin_user=admin', value: 'admin_user="{{ host_user }}"' }
-    - { regex: '# admin_password=password', value: 'admin_password="{{ host_pass }}"'}
+  when: awx_repo.stat.exists
   tags: "awx"
+

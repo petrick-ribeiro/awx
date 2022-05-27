@@ -1,6 +1,6 @@
 ---
 
-- name: Provisioning
+- name: Provisioning AWX Server
   hosts: ubuntu
   remote_user: petrick
 

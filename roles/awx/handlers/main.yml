@@ -11,9 +11,3 @@
   shell:
     cmd: bash /tmp/setup_lts.x
 
-- name: Enable Docker
-  become: true
-  shell:
-    cmd: systemctl enable docker
-
-
