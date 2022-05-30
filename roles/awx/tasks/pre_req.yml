@@ -56,6 +56,12 @@
       #   - { file_path: /var/run/docker/, user_owner: "{{ host_user }}" }
       when: docker_daemon.stat.exists
 
+    - name: Change docker.pid ownership
+      file:
+        state: directory
+        owner: "{{ host_user }}"
+        path: /var/run/docker.pid
+
     - name: Change docker ownership
       file:
         state: directory
