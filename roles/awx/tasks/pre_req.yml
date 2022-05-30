@@ -28,33 +28,39 @@
         update_cache: yes
         state: latest
         name: "{{ docker_req }}"
-      tags: "docker"
 
     - name: Install Docker Engine
       yum:
         update_cache: yes
         state: latest
         name: "{{ docker_pkgs }}"
-      tags: "docker"
 
     - name: Start Docker
       service:
         name: docker
         state: restarted
         enabled: yes
-      tags: "docker"
 
     - name: Check if docker.sock exists
       stat:
         path: /var/run/docker.sock
       register: docker_daemon
-      tags: "docker"
 
     - name: Change docker.sock ownership
       file:
         path: /var/run/docker.sock
         owner: "{{ host_user }}"
+      # loop:
+      #   - { file_path: /var/run/docker.sock, user_owner: "{{ host_user }}" }
+      #   - { file_path: /var/run/docker.pid, user_owner: "{{ host_user }}" }
+      #   - { file_path: /var/run/docker/, user_owner: "{{ host_user }}" }
       when: docker_daemon.stat.exists
-      tags: "docker"
+
+    - name: Change docker ownership
+      file:
+        state: directory
+        owner: "{{ host_user }}"
+        path: /var/run/docker/
   become: true
+  tags: "docker"
 
