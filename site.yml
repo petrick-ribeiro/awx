@@ -1,7 +1,7 @@
 ---
 
 - name: Provisioning AWX Server
-  hosts: ubuntu
+  hosts: awxserver
   remote_user: petrick
 
   roles:
