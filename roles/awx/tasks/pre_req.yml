@@ -58,7 +58,6 @@
 
     - name: Change docker.pid ownership
       file:
-        state: directory
         owner: "{{ host_user }}"
         path: /var/run/docker.pid
 
