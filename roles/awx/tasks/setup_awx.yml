@@ -28,9 +28,6 @@
       command: ansible-playbook -i inventory install.yml
       args:
         chdir: /tmp/awx/installer/
-      register: installing_awx
-
-    - debug: var=installing_awx.stdout_lines
   become: true
   when: awx_repo.stat.exists
   tags: "awx"
