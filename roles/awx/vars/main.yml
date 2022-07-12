@@ -18,4 +18,4 @@ awx_repo: "https://github.com/ansible/awx.git"
 awx_branch: "17.0.1"
 
 host_user: petrick
-host_pass: "test"
+host_pass: test
