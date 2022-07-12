@@ -1,6 +1,4 @@
 ---
-
 - import_tasks: enable_repos.yml
 - import_tasks: pre_req.yml
 - import_tasks: setup_awx.yml
-

@@ -1,10 +1,9 @@
 ---
-
 # Make Installation
 - name: Ensure GNU Make are installed
   become: true
   yum:
-    update_cache: yes
+    update_cache: true
     state: present
     name: "@Development tools"
 
@@ -14,7 +13,7 @@
 
     - name: Install NodeJs and NPM
       yum:
-        update_cache: yes
+        update_cache: true
         state: latest
         name: nodejs
       tags: "node"
@@ -25,13 +24,13 @@
   block:
     - name: Install Docker Pre-Req
       yum:
-        update_cache: yes
+        update_cache: true
         state: latest
         name: "{{ docker_req }}"
 
     - name: Install Docker Engine
       yum:
-        update_cache: yes
+        update_cache: true
         state: latest
         name: "{{ docker_pkgs }}"
 
@@ -39,33 +38,8 @@
       service:
         name: docker
         state: restarted
-        enabled: yes
+        enabled: true
 
-    - name: Check if docker.sock exists
-      stat:
-        path: /var/run/docker.sock
-      register: docker_daemon
-
-    - name: Change docker.sock ownership
-      file:
-        path: /var/run/docker.sock
-        owner: "{{ host_user }}"
-      # loop:
-      #   - { file_path: /var/run/docker.sock, user_owner: "{{ host_user }}" }
-      #   - { file_path: /var/run/docker.pid, user_owner: "{{ host_user }}" }
-      #   - { file_path: /var/run/docker/, user_owner: "{{ host_user }}" }
-      when: docker_daemon.stat.exists
-
-    - name: Change docker.pid ownership
-      file:
-        owner: "{{ host_user }}"
-        path: /var/run/docker.pid
-
-    - name: Change docker ownership
-      file:
-        state: directory
-        owner: "{{ host_user }}"
-        path: /var/run/docker/
+    - name: Adding user to docker group
+      command: usermod -a -G docker $USER
   become: true
-  tags: "docker"
-

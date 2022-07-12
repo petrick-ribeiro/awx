@@ -1,5 +1,4 @@
 ---
-
 # - name: Install nightly and test repo
 #   become: true
 #   shell:
@@ -10,4 +9,3 @@
   become: true
   shell:
     cmd: bash /tmp/setup_lts.x
-

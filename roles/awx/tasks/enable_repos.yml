@@ -1,8 +1,7 @@
 ---
-
 # Node and NPM
 - name: Add Node Repository
-  get_url: 
+  get_url:
     url: https://rpm.nodesource.com/setup_lts.x
     dest: /tmp/setup_lts.x
   notify:
@@ -12,8 +11,8 @@
 # Docker
 - name: Add Docker Repo
   become: true
-  get_url: 
-    url: "{{ docker_repo }}"
+  get_url:
+    url: "{{docker_repo}}"
     dest: /etc/yum.repos.d/
   tags: "docker"
 
@@ -21,8 +20,8 @@
 - name: Cloning AWX Repo
   become: true
   git:
-    clone: yes
-    force: yes
+    clone: true
+    force: true
     repo: "{{ awx_repo }}"
     version: "{{ awx_branch }}"
     dest: /tmp/awx/

@@ -1,5 +1,4 @@
 ---
-
 - name: Install Ansible
   become: true
   yum:
@@ -17,12 +16,12 @@
     - name: Change user parameters in AWX inventory
       replace:
         path: /tmp/awx/installer/inventory
-        backup: yes
+        backup: true
         regexp: "{{ item.regex }}"
         replace: "{{ item.value }}"
       loop:
-        - { regex: 'admin_user=admin', value: 'admin_user={{ host_user }}' }
-        - { regex: '# admin_password=password', value: 'admin_password={{ host_pass }}'}
+        - {regex: 'admin_user=admin', value: 'admin_user={{ host_user }}'}
+        - {regex: '# admin_password=password', value: 'admin_password={{ host_pass }}'}
 
     - name: Install AWX
       command: ansible-playbook -i inventory install.yml
@@ -31,4 +30,3 @@
   become: true
   when: awx_repo.stat.exists
   tags: "awx"
-
