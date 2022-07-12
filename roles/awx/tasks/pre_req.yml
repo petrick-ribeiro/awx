@@ -42,4 +42,7 @@
 
     - name: Adding user to docker group
       command: usermod -a -G docker $USER
+
+    - name: Adding priveleges to docker.sock
+      command : chown $USER /var/run/docker.sock
   become: true
