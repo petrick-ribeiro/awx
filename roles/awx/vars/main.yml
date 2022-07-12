@@ -10,12 +10,12 @@ docker_repo: "https://download.docker.com/linux/centos/docker-ce.repo"
 docker_pkgs:
       - docker-ce
       - docker-ce-cli
-      - docker-compose
       - containerd.io
+      - docker-compose
       - docker-compose-plugin
 
 awx_repo: "https://github.com/ansible/awx.git"
 awx_branch: "17.0.1"
 
-host_user: petrick
+host_user: foo
 host_pass: test
