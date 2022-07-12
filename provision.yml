@@ -1,9 +1,8 @@
 ---
 
 - name: Provisioning AWX Server
-  hosts: localhost
-  connection: local
-  gather_facts: true
+  hosts: awxserver
+  remote_user: petrick
 
   roles:
     - common
