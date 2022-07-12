@@ -1,12 +1,13 @@
 # AWX Tower :hammer_and_wrench:	 
 
-## Automating AWX installation in centOS/7 locally.
+## Automating AWX local installation with Ansible :rocket:.
 
 ```
 git clone https://github.com/petrick-ribeiro/awx.git
 ```
 
 ## Prereq:
+**CentOS/7**
 ```
   sudo yum update
 
