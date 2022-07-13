@@ -5,3 +5,6 @@ common_pkgs:
       - vim
       - git
       - htop
+      - python3
+      - libselinux-python3
+      - python-pip

@@ -1,5 +1,5 @@
 ---
-# Make Installation
+# Make
 - name: Ensure GNU Make are installed
   become: true
   yum:
@@ -7,42 +7,70 @@
     state: present
     name: "@Development tools"
 
-# Node Installation
-- name: Install and Configure Node / NPM
-  block:
-
-    - name: Install NodeJs and NPM
-      yum:
-        update_cache: true
-        state: latest
-        name: nodejs
-      tags: "node"
+# NodeJS
+- name: Install NodeJs and NPM
   become: true
+  yum:
+    update_cache: true
+    state: latest
+    name: nodejs
 
-# Docker Installation
-- name: Install and Configure Docker
+# Docker
+- name: Docker and Docker Compose installation and configuration
+  become: true
   block:
-    - name: Install Docker Pre-Req
+    - name: Removing older versions
       yum:
-        update_cache: true
-        state: latest
-        name: "{{ docker_req }}"
+        name: "{{ docker_older_pkgs }}"
+        state: absent
 
-    - name: Install Docker Engine
+    - name: Installing Docker Engine
       yum:
-        update_cache: true
-        state: latest
         name: "{{ docker_pkgs }}"
 
-    - name: Start Docker
+    - name: Starting docker
       service:
         name: docker
-        state: restarted
+        state: started
         enabled: true
 
-    - name: Adding user to docker group
-      command: usermod -a -G docker $USER
+    - name: Adding user to group Docker
+      user:
+        name: "{{ ansible_user_id }}"
+        groups: docker
+        append: true
 
-    - name: Adding priveleges to docker.sock
-      command : chown $USER /var/run/docker.sock
-  become: true
+    - name: Installing docker-compose python module
+      pip:
+        name: docker-compose
+
+    - name: Installing Docker-Compose
+      become: true
+      get_url:
+        url: "{{ docker_compose_repo }}"
+        dest: "{{ docker_compose_path }}"
+        mode: 755
+
+    # - name: Install Docker Pre-Req
+    #   yum:
+    #     update_cache: true
+    #     state: latest
+    #     name: "{{ docker_req }}"
+
+    # - name: Install Docker Engine
+    #   yum:
+    #     update_cache: true
+    #     state: latest
+    #     name: "{{ docker_pkgs }}"
+
+    # - name: Start Docker
+    #   service:
+    #     name: docker
+    #     state: restarted
+    #     enabled: true
+
+    # - name: Adding user to docker group
+    #   command: usermod -a -G docker $USER
+
+    # - name: Adding priveleges to docker.sock
+    #   command : chown $USER /var/run/docker.sock

@@ -12,6 +12,7 @@
   tags: "awx"
 
 - name: Install and Configure AWX
+  become: true
   block:
     - name: Change user parameters in AWX inventory
       replace:
@@ -27,6 +28,5 @@
       command: ansible-playbook -i inventory install.yml
       args:
         chdir: /tmp/awx/installer/
-  become: true
   when: awx_repo.stat.exists
   tags: "awx"

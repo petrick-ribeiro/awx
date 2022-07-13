@@ -1,9 +1,17 @@
 ---
+docker_older_pkgs:
+  - docker-client
+  - docker-client-latest
+  - docker-common
+  - docker-latest
+  - docker-logrotate
+  - docker-engine
+  - docker-py
 
-docker_req:
-      - yum-utils
-      - python3
-      - libselinux-python3
+# docker_req:
+#       - yum-utils
+#       - python3
+#       - libselinux-python3
 
 docker_repo: "https://download.docker.com/linux/centos/docker-ce.repo"
 
@@ -11,8 +19,10 @@ docker_pkgs:
       - docker-ce
       - docker-ce-cli
       - containerd.io
-      - docker-compose
       - docker-compose-plugin
+
+docker_compose_repo: "https://github.com/docker/compose/releases/download/v2.6.1/docker-compose-Linux-x86_64"
+docker_compose_path: "/usr/local/bin/docker-compose"
 
 awx_repo: "https://github.com/ansible/awx.git"
 awx_branch: "17.0.1"

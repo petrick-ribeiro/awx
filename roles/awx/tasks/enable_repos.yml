@@ -9,12 +9,19 @@
   tags: "node"
 
 # Docker
-- name: Add Docker Repo
+- name: Add docker-ce repo
   become: true
-  get_url:
-    url: "{{docker_repo}}"
-    dest: /etc/yum.repos.d/
-  tags: "docker"
+  yum_repository:
+    name: docker-ce
+    description: docker-ce YUM repo
+    baseurl: "{{ docker_repo }}"
+
+# - name: Add Docker Repo
+#   become: true
+#   get_url:
+#     url: "{{docker_repo}}"
+#     dest: /etc/yum.repos.d/
+#   tags: "docker"
 
 # AWX
 - name: Cloning AWX Repo
