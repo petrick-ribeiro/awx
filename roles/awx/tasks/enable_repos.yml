@@ -6,7 +6,11 @@
     dest: /tmp/setup_lts.x
   notify:
     - Run Node setup Script
-  tags: "node"
+
+- name: Run Node setup Script
+  become: true
+  shell:
+    cmd: bash /tmp/setup_lts.x
 
 # Docker
 - name: Add docker-ce repo

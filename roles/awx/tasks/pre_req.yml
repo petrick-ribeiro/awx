@@ -3,7 +3,6 @@
 - name: Ensure GNU Make are installed
   become: true
   yum:
-    update_cache: true
     state: present
     name: "@Development tools"
 
@@ -11,9 +10,8 @@
 - name: Install NodeJs and NPM
   become: true
   yum:
-    update_cache: true
-    state: latest
     name: nodejs
+    state: latest
 
 # Docker
 - name: Docker and Docker Compose installation and configuration
