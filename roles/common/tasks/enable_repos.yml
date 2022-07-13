@@ -5,12 +5,6 @@
     name: epel-release
     state: latest
 
-- name: Ensure centos-extras are enabled
-  become: true
-  yum:
-    name: centos-extras
-    state: latest
-
 - name: Ensure yum-utils are enabled
   become: true
   yum:
