@@ -15,10 +15,9 @@
 # Docker
 - name: Add docker-ce repo
   become: true
-  yum_repository:
-    name: docker-ce
-    description: docker-ce YUM repo
-    baseurl: "{{ docker_repo }}"
+  get_url:
+    url: "{{ docker_repo }}"
+    dest: /etc/yum.repos.d/
 
 # - name: Add Docker Repo
 #   become: true
